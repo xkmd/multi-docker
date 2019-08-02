@@ -5,7 +5,7 @@ services:
 before_install:
   - docker build -t ivan/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -e CI=true ivan/react-test npm test
+  - docker run -e CI=true ivan/react-test npm run test
 after_success:
   - docker build -t ivan/multi-client ./client
   - docker build -t ivan/multi-nginx ./nginx
