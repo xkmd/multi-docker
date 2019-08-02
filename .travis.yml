@@ -4,7 +4,7 @@ services:
 before_install:
   - docker build -t ivan/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker run stephengrider/react-test npm test -- --coverage
+  - docker run ivan/react-test npm test -- --coverage
 after_success:
   - docker build -t ivan/multi-client ./client
   - docker build -t ivan/multi-nginx ./nginx
