@@ -1,0 +1,20 @@
+language: generic
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t ivan/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true ivan/react-test npm test
+after_success:
+  - docker build -t ivan/multi-client ./client
+  - docker build -t ivan/multi-nginx ./nginx
+  - docker build -t ivan/multi-server ./server
+  - docker build -t ivan/multi-worker ./worker
+  #login to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #take those images and push them to docker hub
+  - docker push ivan/multi-client
+  - docker push ivan/multi-nginx
+  - docker push ivan/multi-server
+  - docker push ivan/multi-worker
